@@ -8,126 +8,169 @@ class login extends StatefulWidget {
 }
 
 class _loginState extends State<login> {
-  int _counter = 0;
-  bool _obscuredText = false;
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  void testFunction() {
-    setState(() {
-      _counter++;
-    });
-    print("test function");
+  final _formKey = GlobalKey<FormState>();
+  final textController = TextEditingController();
+  bool isObscured = false;
+  int x = 0;
+  void test() {
+    print(_emailController.value.text);
+    print('password=' + _passwordController.value.text);
+    if (_passwordController.value.text == '123') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => login()),
+      );
+    } else {
+      print('not authoezd');
+    }
   }
 
   onChanged() {
     setState(() {
-      _obscuredText = !_obscuredText;
+      isObscured = !isObscured;
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  Widget build(BuildContext build) {
     return Scaffold(
-        /* appBar: AppBar(
-          backgroundColor: Colors.blue,
-          // title: Text('Login page'),
-        )*/
-        body: /*Container(
-          child: Column(
-            children: <Widget>[
-              CommonTextFormField(
-                controller: _phoneNoController,
-                helperText: 'Phone Number',
-                hintText: 'Enter your phone number',
-                prefixIcon: Icons.phone,
-              ),
-              CommonTextFormField(
-                controller: _passwordController,
-                helperText: "Password",
-                hintText: "Enter your password",
-                isPassword: true,
-                prefixIcon: Icons.lock_open,
-              )
-            ],
-          ),
-        )*/
-            Container(
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            width: double.infinity,
-            child: Container(
-              //color: Colors.red,
-              margin: EdgeInsets.fromLTRB(20, 50, 0, 0),
-              child: Text(
-                "Welcome to",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 18, color: Color.fromARGB(255, 250, 17, 1)),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Container(
-              //color: Colors.red,
-              margin: EdgeInsets.fromLTRB(20, 0, 0, 100),
-              child: Text(
-                "Carwash application",
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 18, color: Colors.black),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 100,
-            width: 320,
-            child: AppConstants.textFormFieldComponent(
-                _emailController,
-                'Email',
-                '',
-                Icons.email,
-                Icons.password,
-                false,
-                _obscuredText,
-                false,
-                false,
-                false,
-                Colors.amberAccent,
-                onChanged),
-          ),
-          SizedBox(
-            height: 100,
-            width: 320,
-            child: AppConstants.textFormFieldComponent(
-                _passwordController,
-                'Password',
-                '',
-                Icons.password,
-                Icons.password,
-                !_obscuredText,
-                _obscuredText,
-                true,
-                false,
-                true,
-                Colors.amberAccent,
-                onChanged),
-          ),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green,
-                onPrimary: Colors.white,
-                shadowColor: Colors.greenAccent,
-                elevation: 10,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
-                minimumSize: Size(100, 40), //////// HERE
-              ),
-              onPressed: () => {print("email=" + _emailController.text)},
-              child: Text("sumbit")),
-        ],
-      ),
-    ));
+        body: Container(
+            // color: Colors.green,
+            child: Form(
+                key: _formKey,
+                child: Container(
+                  //  color: Colors.blue,
+                  child: Column(children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        //  color: Colors.blue,
+                        padding: EdgeInsets.fromLTRB(20, 60, 0, 0),
+                        child: Text(
+                          'Welcome to',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        //  color: Colors.blue,
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 20),
+                        child: Text(
+                          'carWash application',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(5, 5, 5, 50),
+                      child: Image(
+                        image: AssetImage('assets/images/logo.png'),
+                        height: 150,
+                      ),
+                    ),
+                    Container(
+                      width: 300,
+                      height: 70,
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                            labelText: "Email",
+                            hintText: 'Enter email',
+                            helperText: " ",
+                            //fillColor: Colors.white30,
+                            // contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            // filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter email';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      height: 70,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter password';
+                          }
+                          return null;
+                        },
+
+                        decoration: InputDecoration(
+                            labelText: "Password",
+                            hintText: 'Enter password',
+                            helperText: " ",
+
+                            // fillColor: Colors.white30,
+                            // filled: true,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isObscured
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: onChanged,
+                              color: Colors.pink[400],
+                            ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25))),
+                        // maxLength: 6,
+                        obscureText: !isObscured,
+                      ),
+                    ),
+                    Container(
+                        width: 300,
+                        height: 20,
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        // color: Color.fromARGB(31, 11, 52, 232),
+                        child: TextButton(
+                          onPressed: () => print('forget pass'),
+                          child: Text('Forget password',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 11, color: Colors.black54)),
+                        )),
+                    Container(
+                        width: 300,
+                        // height: 20,
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        // color: Color.fromARGB(31, 11, 52, 232),
+                        child: TextButton(
+                          onPressed: () => print('register'),
+                          child: Text('SignUp',
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(fontSize: 11, color: Colors.blue)),
+                        )),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 104, 76, 175),
+                          foregroundColor: Colors.white,
+                          shadowColor: Colors.greenAccent,
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          minimumSize: Size(200, 40), //////// HERE
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
+                        },
+                        child: Text("SignIn")),
+                  ]),
+                ))));
   }
 }

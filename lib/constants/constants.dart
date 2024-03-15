@@ -24,12 +24,9 @@ class AppConstants {
 
       obscureText: isPassword == false ? false : true,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(
-              width: 1,
-              style: BorderStyle.none,
-            )),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 1.0, horizontal: 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         hintText: null == hintText ? '' : hintText,
         helperText: null == helpText ? '' : helpText,
         prefixIcon: isPrefix == false ? null : Icon(prefixIcon),
